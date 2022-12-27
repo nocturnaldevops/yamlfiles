@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mycronjob
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      completions: 8
+      parallelism: 2
+      template: 
+       spec: 
+        containers: 
+          - name: example
+            image: alpine:latest
+            command: ["bin/sh", "-c"]
+            args: ["echo Hello there from a cronjob"]
+        restartPolicy: Never
